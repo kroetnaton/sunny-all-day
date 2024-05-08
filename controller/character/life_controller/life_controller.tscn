@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://guniw5vobaw2"]
+
+[ext_resource type="Script" path="res://controller/character/life_controller/life_controller.gd" id="1_ifa2q"]
+
+[node name="LifeController" type="Node3D"]
+script = ExtResource("1_ifa2q")

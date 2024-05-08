@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dncvqch4plyli"]
+
+[ext_resource type="Script" path="res://controller/abilities/ability_base/ability_base.gd" id="1_cmmhn"]
+
+[node name="AbilityBase" type="Node3D"]
+script = ExtResource("1_cmmhn")

@@ -1,0 +1,45 @@
+[gd_scene load_steps=5 format=3 uid="uid://cgd1r0dhbs8df"]
+
+[ext_resource type="Script" path="res://controller/hud/life_hud/life_hud.gd" id="1_w0kja"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_urmqo"]
+viewport_path = NodePath("SubViewport")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ugjx6"]
+bg_color = Color(0.984314, 0.34902, 0.388235, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wn6qr"]
+bg_color = Color(0.243137, 0.690196, 0.529412, 1)
+
+[node name="LifeHud" type="Node3D"]
+script = ExtResource("1_w0kja")
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+billboard = 1
+texture = SubResource("ViewportTexture_urmqo")
+
+[node name="SubViewport" type="SubViewport" parent="."]
+disable_3d = true
+transparent_bg = true
+
+[node name="HealthBar" type="ProgressBar" parent="SubViewport"]
+custom_minimum_size = Vector2(100, 20)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -50.0
+offset_top = -5.0
+offset_right = 50.0
+offset_bottom = 5.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/outline_size = 3
+theme_override_styles/background = SubResource("StyleBoxFlat_ugjx6")
+theme_override_styles/fill = SubResource("StyleBoxFlat_wn6qr")
+allow_greater = true
+allow_lesser = true
+show_percentage = false

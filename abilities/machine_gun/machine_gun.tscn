@@ -1,0 +1,16 @@
+[gd_scene load_steps=4 format=3 uid="uid://crukfc7xi0osi"]
+
+[ext_resource type="Script" path="res://controller/abilities/ability_base/ability_base.gd" id="1_klnda"]
+[ext_resource type="Script" path="res://abilities/machine_gun/machine_gun.gd" id="1_s5wm2"]
+[ext_resource type="PackedScene" uid="uid://br41hvp8gwqcd" path="res://abilities/_parts/bullet/bullet.tscn" id="3_qysqy"]
+
+[node name="MachineGun" type="Node3D"]
+script = ExtResource("1_s5wm2")
+
+[node name="AbilityBase" type="Node3D" parent="."]
+script = ExtResource("1_klnda")
+cooldown = 0.1
+
+[node name="Bullet" parent="." instance=ExtResource("3_qysqy")]
+
+[connection signal="hit" from="Bullet" to="AbilityBase" method="_on_hit"]

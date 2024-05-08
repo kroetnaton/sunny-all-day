@@ -1,0 +1,85 @@
+[gd_scene load_steps=9 format=3 uid="uid://dq51gpbe63cx7"]
+
+[ext_resource type="PackedScene" uid="uid://cvsnscha3012d" path="res://entities/player/player.tscn" id="1_neldj"]
+[ext_resource type="PackedScene" uid="uid://du42pw2umdhu3" path="res://entities/turret/turret.tscn" id="2_13tqx"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_5p7ya"]
+size = Vector3(50, 1, 50)
+
+[sub_resource type="BoxMesh" id="BoxMesh_yxmhl"]
+size = Vector3(50, 1, 50)
+
+[sub_resource type="BoxMesh" id="BoxMesh_6vcsd"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_6b60k"]
+size = Vector3(2, 2, 10)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_wqyjv"]
+size = Vector3(2, 10, 2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_j8xps"]
+size = Vector3(4, 1, 4)
+
+[node name="Main" type="Node"]
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 40, 0)
+
+[node name="Player" parent="." instance=ExtResource("1_neldj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 2, 10)
+primary = 1
+secondary = 2
+utility = 3
+special = 4
+
+[node name="Turret" parent="." instance=ExtResource("2_13tqx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 1, -20)
+
+[node name="Ground" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground"]
+shape = SubResource("BoxShape3D_5p7ya")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground"]
+mesh = SubResource("BoxMesh_yxmhl")
+
+[node name="Wall" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 1, 2)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Wall"]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 10, 0, 0, 0)
+mesh = SubResource("BoxMesh_6vcsd")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Wall"]
+shape = SubResource("BoxShape3D_6b60k")
+
+[node name="Pillar" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 5, 2)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Pillar"]
+transform = Transform3D(2, 0, 0, 0, 10, 0, 0, 0, 2, 0, 0, 0)
+mesh = SubResource("BoxMesh_6vcsd")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Pillar"]
+shape = SubResource("BoxShape3D_wqyjv")
+
+[node name="Platform" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 5, -6)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Platform"]
+transform = Transform3D(4, 0, 0, 0, 1, 0, 0, 0, 4, 0, 0, 0)
+mesh = SubResource("BoxMesh_6vcsd")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Platform"]
+shape = SubResource("BoxShape3D_j8xps")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -0.707107, 0.707107, 0, -0.707107, -0.707107, 0, 10, -10)
+light_color = Color(0.772549, 0.768627, 0.533333, 1)
+shadow_enabled = true
+
+[node name="DirectionalLight3D2" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 10, 5)
+light_color = Color(0.933333, 0.45098, 0.627451, 1)
+shadow_enabled = true

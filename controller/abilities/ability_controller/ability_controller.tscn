@@ -1,0 +1,18 @@
+[gd_scene load_steps=2 format=3 uid="uid://cew60xmpm88f0"]
+
+[ext_resource type="Script" path="res://controller/abilities/ability_controller/ability_controller.gd" id="1_putah"]
+
+[node name="AbilityController" type="Node3D"]
+script = ExtResource("1_putah")
+
+[node name="RayCast3D" type="RayCast3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+target_position = Vector3(0, -1000, 0)
+
+[node name="SpringArm3D" type="SpringArm3D" parent="."]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
+spring_length = 50.0
+
+[node name="Marker3D" type="Marker3D" parent="SpringArm3D"]
+
+[node name="Muzzle" type="Marker3D" parent="."]

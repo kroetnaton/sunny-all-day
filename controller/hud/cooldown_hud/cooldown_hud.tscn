@@ -1,0 +1,128 @@
+[gd_scene load_steps=10 format=3 uid="uid://d1pslehy0udds"]
+
+[ext_resource type="Script" path="res://controller/hud/cooldown_hud/cooldown_hud.gd" id="1_orhbo"]
+[ext_resource type="Script" path="res://controller/hud/cooldown_hud/cooldown_visual.gd" id="2_25jdo"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_typ4f"]
+viewport_path = NodePath("SubViewport")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_315bm"]
+bg_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7s2io"]
+bg_color = Color(0.717647, 0.741176, 0.00784314, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_me1cj"]
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cn5to"]
+bg_color = Color(0.15701, 0.6099, 0.177141, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g41eu"]
+bg_color = Color(0.0823529, 0.65098, 0.886275, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_26niu"]
+bg_color = Color(0.935917, 0.195149, 0.262001, 1)
+
+[node name="CooldownHud" type="Node3D"]
+script = ExtResource("1_orhbo")
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+billboard = 1
+texture = SubResource("ViewportTexture_typ4f")
+
+[node name="SubViewport" type="SubViewport" parent="."]
+disable_3d = true
+transparent_bg = true
+
+[node name="GridContainer" type="GridContainer" parent="SubViewport"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -46.0
+offset_top = -11.5
+offset_right = 54.0
+offset_bottom = 8.5
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+columns = 4
+
+[node name="PanelContainerPrimary" type="PanelContainer" parent="SubViewport/GridContainer"]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_315bm")
+
+[node name="CooldownPrimary" type="ProgressBar" parent="SubViewport/GridContainer/PanelContainerPrimary"]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/background = SubResource("StyleBoxFlat_7s2io")
+theme_override_styles/fill = SubResource("StyleBoxFlat_me1cj")
+max_value = 3.0
+allow_greater = true
+allow_lesser = true
+fill_mode = 2
+show_percentage = false
+script = ExtResource("2_25jdo")
+
+[node name="PanelContainerSecondary" type="PanelContainer" parent="SubViewport/GridContainer"]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_315bm")
+
+[node name="CooldownSecondary" type="ProgressBar" parent="SubViewport/GridContainer/PanelContainerSecondary"]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/background = SubResource("StyleBoxFlat_cn5to")
+theme_override_styles/fill = SubResource("StyleBoxFlat_me1cj")
+max_value = 3.0
+allow_greater = true
+allow_lesser = true
+fill_mode = 2
+show_percentage = false
+script = ExtResource("2_25jdo")
+
+[node name="PanelContainerUtility" type="PanelContainer" parent="SubViewport/GridContainer"]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_315bm")
+
+[node name="CooldownUtility" type="ProgressBar" parent="SubViewport/GridContainer/PanelContainerUtility"]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/background = SubResource("StyleBoxFlat_g41eu")
+theme_override_styles/fill = SubResource("StyleBoxFlat_me1cj")
+max_value = 3.0
+allow_greater = true
+allow_lesser = true
+fill_mode = 2
+show_percentage = false
+script = ExtResource("2_25jdo")
+
+[node name="PanelContainerSpecial" type="PanelContainer" parent="SubViewport/GridContainer"]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_315bm")
+
+[node name="CooldownSpecial" type="ProgressBar" parent="SubViewport/GridContainer/PanelContainerSpecial"]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/background = SubResource("StyleBoxFlat_26niu")
+theme_override_styles/fill = SubResource("StyleBoxFlat_me1cj")
+max_value = 3.0
+allow_greater = true
+allow_lesser = true
+fill_mode = 2
+show_percentage = false
+script = ExtResource("2_25jdo")

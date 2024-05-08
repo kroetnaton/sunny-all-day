@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://bmg18rmmt4540"]
+
+[ext_resource type="Script" path="res://abilities/shotgun/shotgun.gd" id="1_2nrk8"]
+[ext_resource type="Script" path="res://controller/abilities/ability_base/ability_base.gd" id="1_ciput"]
+[ext_resource type="PackedScene" uid="uid://ba7qamvfvw2ck" path="res://controller/abilities/circle_spawner/circle_spawner.tscn" id="3_llkmt"]
+
+[node name="Shotgun" type="Node3D"]
+script = ExtResource("1_2nrk8")
+
+[node name="AbilityBase" type="Node3D" parent="."]
+script = ExtResource("1_ciput")
+cooldown = 1.0
+
+[node name="CircleSpawner" parent="." instance=ExtResource("3_llkmt")]
+part = 1
+
+[node name="TargetSpawner" parent="." instance=ExtResource("3_llkmt")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -10)

@@ -1,0 +1,45 @@
+[gd_scene load_steps=7 format=3 uid="uid://0v80lv3nukae"]
+
+[ext_resource type="Script" path="res://abilities/_parts/laser/laser.gd" id="1_evh0e"]
+[ext_resource type="Script" path="res://abilities/_parts/laser/laser_end_visual.gd" id="2_nqdrm"]
+[ext_resource type="Script" path="res://abilities/_parts/laser/laser_visual.gd" id="3_tyemm"]
+
+[sub_resource type="TorusMesh" id="TorusMesh_iswfp"]
+inner_radius = 0.1
+outer_radius = 0.15
+
+[sub_resource type="TorusMesh" id="TorusMesh_dot1p"]
+inner_radius = 0.3
+outer_radius = 0.35
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_n0vhp"]
+radius = 0.1
+
+[node name="Laser" type="Node3D"]
+script = ExtResource("1_evh0e")
+
+[node name="Origin" type="Marker3D" parent="."]
+
+[node name="RayCast3D" type="RayCast3D" parent="Origin"]
+target_position = Vector3(0, 0, -30)
+
+[node name="OriginVisual" type="MeshInstance3D" parent="Origin"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+mesh = SubResource("TorusMesh_iswfp")
+skeleton = NodePath("../..")
+
+[node name="OriginVisual2" type="MeshInstance3D" parent="Origin"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+mesh = SubResource("TorusMesh_dot1p")
+skeleton = NodePath("../OriginVisual")
+
+[node name="LaserVisual" type="MeshInstance3D" parent="Origin"]
+skeleton = NodePath("../..")
+script = ExtResource("3_tyemm")
+
+[node name="LaserEndVisual" type="MeshInstance3D" parent="Origin"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+visible = false
+mesh = SubResource("CapsuleMesh_n0vhp")
+skeleton = NodePath("../..")
+script = ExtResource("2_nqdrm")

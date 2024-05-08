@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=3 uid="uid://cc7mukclnnop7"]
+
+[sub_resource type="GDScript" id="GDScript_ntcd1"]
+script/source = "extends Node3D
+
+func _on_timer_timeout():
+	queue_free()
+"
+
+[sub_resource type="SphereMesh" id="SphereMesh_6oe7f"]
+radius = 0.25
+height = 0.5
+
+[node name="Marker" type="Node3D"]
+script = SubResource("GDScript_ntcd1")
+
+[node name="Timer" type="Timer" parent="."]
+autostart = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("SphereMesh_6oe7f")
+
+[connection signal="timeout" from="Timer" to="." method="queue_free"]

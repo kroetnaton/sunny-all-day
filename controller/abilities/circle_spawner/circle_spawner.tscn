@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://ba7qamvfvw2ck"]
+
+[ext_resource type="Script" path="res://controller/abilities/circle_spawner/circle_spawner.gd" id="1_bw7ol"]
+
+[node name="CircleSpawner" type="Node3D"]
+script = ExtResource("1_bw7ol")

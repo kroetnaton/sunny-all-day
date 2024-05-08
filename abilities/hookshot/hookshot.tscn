@@ -1,0 +1,21 @@
+[gd_scene load_steps=5 format=3 uid="uid://ct0c1s8hstnn6"]
+
+[ext_resource type="Script" path="res://abilities/hookshot/hookshot.gd" id="1_l1a0d"]
+[ext_resource type="PackedScene" uid="uid://dncvqch4plyli" path="res://controller/abilities/ability_base/ability_base.tscn" id="2_bvlek"]
+[ext_resource type="Script" path="res://abilities/hookshot/line_visual.gd" id="3_tey8m"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_4p281"]
+
+[node name="Hookshot" type="Node3D"]
+visible = false
+script = ExtResource("1_l1a0d")
+
+[node name="AbilityBase" parent="." instance=ExtResource("2_bvlek")]
+cooldown = 5.0
+
+[node name="TargetVisual" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0, 0)
+mesh = SubResource("SphereMesh_4p281")
+
+[node name="LineVisual" type="MeshInstance3D" parent="."]
+script = ExtResource("3_tey8m")

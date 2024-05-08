@@ -1,0 +1,51 @@
+[gd_scene load_steps=8 format=3 uid="uid://dooncab7eyun4"]
+
+[ext_resource type="Script" path="res://abilities/freeze_granade/freeze_granade.gd" id="1_crpot"]
+[ext_resource type="PackedScene" uid="uid://dncvqch4plyli" path="res://controller/abilities/ability_base/ability_base.tscn" id="1_nn38r"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_rdwg0"]
+radius = 0.1
+height = 0.2
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_smn7q"]
+radius = 0.1
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_db3yv"]
+radius = 0.15
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_1nsqi"]
+radius = 5.0
+
+[sub_resource type="SphereMesh" id="SphereMesh_o41j7"]
+radius = 5.0
+height = 10.0
+
+[node name="FreezeGranade" type="CharacterBody3D"]
+script = ExtResource("1_crpot")
+
+[node name="AbilityBase" parent="." instance=ExtResource("1_nn38r")]
+damage = 0.0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("SphereMesh_rdwg0")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_smn7q")
+
+[node name="ContactArea" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ContactArea"]
+shape = SubResource("SphereShape3D_db3yv")
+
+[node name="ExplosionArea" type="Area3D" parent="."]
+visible = false
+monitoring = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ExplosionArea"]
+shape = SubResource("SphereShape3D_1nsqi")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="ExplosionArea"]
+mesh = SubResource("SphereMesh_o41j7")
+
+[connection signal="body_entered" from="ContactArea" to="." method="_on_contact"]
+[connection signal="body_entered" from="ExplosionArea" to="." method="_on_explosion"]

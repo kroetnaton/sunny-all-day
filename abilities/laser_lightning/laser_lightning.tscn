@@ -1,0 +1,16 @@
+[gd_scene load_steps=4 format=3 uid="uid://db3x7a0cu4p50"]
+
+[ext_resource type="PackedScene" uid="uid://dncvqch4plyli" path="res://controller/abilities/ability_base/ability_base.tscn" id="1_ito3p"]
+[ext_resource type="Script" path="res://abilities/laser_lightning/laser_lightning.gd" id="1_ljbcj"]
+[ext_resource type="PackedScene" uid="uid://ba7qamvfvw2ck" path="res://controller/abilities/circle_spawner/circle_spawner.tscn" id="2_lcmya"]
+
+[node name="LaserLightning" type="Node3D"]
+script = ExtResource("1_ljbcj")
+
+[node name="AbilityBase" parent="." instance=ExtResource("1_ito3p")]
+cooldown = 6.0
+damage = 35.0
+
+[node name="CircleSpawner" parent="." instance=ExtResource("2_lcmya")]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 10, 0)
+part = 2

@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://oon0stt402tx"]
+
+[ext_resource type="Script" path="res://abilities/nothing/nothing.gd" id="1_4rm4r"]
+[ext_resource type="PackedScene" uid="uid://dncvqch4plyli" path="res://controller/abilities/ability_base/ability_base.tscn" id="2_g2atr"]
+
+[node name="Nothing" type="Node3D"]
+script = ExtResource("1_4rm4r")
+
+[node name="AbilityBase" parent="." instance=ExtResource("2_g2atr")]
+cooldown = 1.0

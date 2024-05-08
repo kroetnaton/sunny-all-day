@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://inoey3cdtheh"]
+
+[ext_resource type="Script" path="res://abilities/laser_gattling/laser_gattling.gd" id="1_fj73o"]
+[ext_resource type="PackedScene" uid="uid://dncvqch4plyli" path="res://controller/abilities/ability_base/ability_base.tscn" id="2_x6gih"]
+
+[sub_resource type="Curve3D" id="Curve3D_3ek2m"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, -0.5, 0, 1, 2, 0, 0, 0, 0, 0, -0.5, 0, 1, 0, 0, 0.5, 0, 0, -0.5, 0, 0, 0, -1, 0, 0, -0.5, 0, 0, 1, 0, -1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0),
+"tilts": PackedFloat32Array(0, 0, 0, 0, 0)
+}
+point_count = 5
+
+[node name="LaserGattling" type="Node3D"]
+script = ExtResource("1_fj73o")
+
+[node name="AbilityBase" parent="." instance=ExtResource("2_x6gih")]
+cooldown = 10.0
+damage = 35.0
+
+[node name="Path3D" type="Path3D" parent="."]
+curve = SubResource("Curve3D_3ek2m")

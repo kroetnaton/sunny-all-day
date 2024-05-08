@@ -1,0 +1,76 @@
+[gd_scene load_steps=12 format=3 uid="uid://cvsnscha3012d"]
+
+[ext_resource type="Script" path="res://entities/player/player.gd" id="1_t44mj"]
+[ext_resource type="PackedScene" uid="uid://guniw5vobaw2" path="res://controller/character/life_controller/life_controller.tscn" id="2_2u3ws"]
+[ext_resource type="PackedScene" uid="uid://cew60xmpm88f0" path="res://controller/abilities/ability_controller/ability_controller.tscn" id="2_86m7a"]
+[ext_resource type="PackedScene" uid="uid://hy7fcsdx2bf7" path="res://controller/character/movement_controller/movement_controller.tscn" id="2_cq6hj"]
+[ext_resource type="PackedScene" uid="uid://cgd1r0dhbs8df" path="res://controller/hud/life_hud/life_hud.tscn" id="3_rtw2x"]
+[ext_resource type="PackedScene" uid="uid://d1pslehy0udds" path="res://controller/hud/cooldown_hud/cooldown_hud.tscn" id="5_4rgnr"]
+[ext_resource type="PackedScene" uid="uid://corbthvkn22i6" path="res://controller/hud/crosshair.tscn" id="5_76tqt"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_xg6qu"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_2tl3g"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_okxit"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_a2kmc"]
+
+[node name="Player" type="CharacterBody3D"]
+collision_layer = 3
+script = ExtResource("1_t44mj")
+
+[node name="LifeController" parent="." node_paths=PackedStringArray("life_hud") instance=ExtResource("2_2u3ws")]
+life_hud = NodePath("../Pivot/LifeHud")
+
+[node name="MovementController" parent="." instance=ExtResource("2_cq6hj")]
+
+[node name="Pivot" type="Node3D" parent="."]
+
+[node name="LifeHud" parent="Pivot" instance=ExtResource("3_rtw2x")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 0)
+
+[node name="CooldownHud" parent="Pivot" instance=ExtResource("5_4rgnr")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.15, 0)
+
+[node name="Body" type="MeshInstance3D" parent="Pivot"]
+mesh = SubResource("CapsuleMesh_xg6qu")
+
+[node name="Face" type="MeshInstance3D" parent="Pivot/Body"]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.25, 0, 0.25, -0.5)
+mesh = SubResource("SphereMesh_2tl3g")
+skeleton = NodePath("../..")
+
+[node name="ArmRight" type="MeshInstance3D" parent="Pivot/Body"]
+transform = Transform3D(0.25, 0, 0, 0, 0.5, 0, 0, 0, 0.25, 0.56, 0, 0)
+mesh = SubResource("CapsuleMesh_okxit")
+skeleton = NodePath("../..")
+
+[node name="ArmLeft" type="MeshInstance3D" parent="Pivot/Body"]
+transform = Transform3D(0.25, 0, 0, 0, 0.5, 0, 0, 0, 0.25, -0.6, 0, 0)
+mesh = SubResource("CapsuleMesh_okxit")
+skeleton = NodePath("../..")
+
+[node name="Muzzle" type="Marker3D" parent="Pivot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.75)
+
+[node name="HudAnchor" type="Marker3D" parent="Pivot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_a2kmc")
+
+[node name="ViewPivot" type="Node3D" parent="."]
+
+[node name="SpringArm3D" type="SpringArm3D" parent="ViewPivot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
+spring_length = 10.0
+margin = 0.5
+
+[node name="Camera3D" type="Camera3D" parent="ViewPivot/SpringArm3D"]
+current = true
+
+[node name="AbilityController" parent="ViewPivot/SpringArm3D/Camera3D" node_paths=PackedStringArray("cooldown_hud") instance=ExtResource("2_86m7a")]
+cooldown_hud = NodePath("../../../../Pivot/CooldownHud")
+
+[node name="HUD" parent="ViewPivot/SpringArm3D/Camera3D" instance=ExtResource("5_76tqt")]
