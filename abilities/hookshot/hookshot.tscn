@@ -12,6 +12,9 @@ script = ExtResource("1_l1a0d")
 
 [node name="AbilityBase" parent="." instance=ExtResource("2_bvlek")]
 cooldown = 5.0
+speed_factor = 0.0
+fall_factor = 0.0
+disable_jump = true
 
 [node name="TargetVisual" type="MeshInstance3D" parent="."]
 transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0, 0)

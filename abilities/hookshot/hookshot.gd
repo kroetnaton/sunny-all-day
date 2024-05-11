@@ -28,6 +28,8 @@ func _process(delta: float) -> void:
 		queue_free()
 		return
 	
+	ability_base._on_hit(ability_base.target_object)
+	
 	# Move parent to target until reached, then keep parent there
 	var force_movement: Vector3 = Vector3.ZERO
 	if stop_distance < muzzle.global_position.distance_to(ability_base.target_point) and not is_target_reached:
