@@ -9,7 +9,9 @@ script = ExtResource("1_s5wm2")
 
 [node name="AbilityBase" type="Node3D" parent="."]
 script = ExtResource("1_klnda")
+ability_name = "MachineGun"
 cooldown = 0.1
+damage = 10.0
 
 [node name="Bullet" parent="." instance=ExtResource("3_qysqy")]
 

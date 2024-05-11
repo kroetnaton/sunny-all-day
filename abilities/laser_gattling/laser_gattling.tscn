@@ -14,6 +14,7 @@ point_count = 5
 script = ExtResource("1_fj73o")
 
 [node name="AbilityBase" parent="." instance=ExtResource("2_x6gih")]
+ability_name = "LaserGattling"
 cooldown = 10.0
 damage = 35.0
 

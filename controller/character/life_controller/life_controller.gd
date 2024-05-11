@@ -5,28 +5,22 @@ class_name LifeController
 @onready var health: float = max_health
 @export var life_hud: LifeHud
 
-var damage: Array = []
-var damage_block_flat: float = 0.0
-var damage_block_percent: float = 0.0:
-	set(change):
-		add_percentage_change(damage_block_percent, change)
+var damage_list: Array = []
+var dot_container: Dictionary = {}
+var heal_list: Array = []
+var hot_container: Dictionary = {}
 
-var heal: Array = []
-var heal_boost_flat: float = 0.0
-var heal_boost_percent: float = 0.0:
-	set(change):
-		add_percentage_change(heal_boost_percent, change)
+func add_damage_changes(name: String, duration: float, change: float, block_percent: float,
+		boost_percent: float, block_flat: float, boost_flat: float) -> void:
+	add_values(dot_container, name, duration, change, block_percent, boost_percent, block_flat, boost_flat)
 
-func _process(_delta: float) -> void:
-	var final_damage: float = 0.0
-	for damage_instance in damage:
-		final_damage += max(damage_instance * (1 - damage_block_percent) - damage_block_flat, 0.0)
-	
-	var final_heal: float = 0.0
-	for heal_instance: float in heal:
-		final_heal += max(heal_instance * (1 + heal_boost_percent) + heal_boost_flat, 0.0)
-	
-	health += final_heal - final_damage
+func add_heal_changes(name: String, duration: float, change: float, block_percent: float,
+		boost_percent: float, block_flat: float, boost_flat: float) -> void:
+	add_values(hot_container, name, duration, change, block_percent, boost_percent, block_flat, boost_flat)
+
+func _process(delta: float) -> void:
+	health += sum_and_clean_values(heal_list, hot_container, delta) - \
+			sum_and_clean_values(damage_list, dot_container, delta)
 	if health <= 0.0:
 		get_parent().queue_free()
 	
@@ -34,18 +28,40 @@ func _process(_delta: float) -> void:
 	if is_instance_valid(life_hud):
 		life_hud.health_bar.max_value = max_health
 		life_hud.health_bar.value = health
-	
-	# Reset values for the next tick
-	damage = []
-	damage_block_flat = 0.0
-	damage_block_percent = -1.0 # To reset through the setter
-	heal = []
-	heal_boost_flat = 0.0
-	heal_boost_percent = -1.0 # To reset through the setter
 
-func add_percentage_change(current: float, change: float) -> float:
-	if change > 1.0:
-		return 1.0
-	if change < 0.0:
-		return 0.0
-	return current + (1 - current) * change
+func add_values(dict: Dictionary, name: String, duration: float, change: float, block_percent: float,
+		boost_percent: float, block_flat: float, boost_flat: float) -> void:
+	dict[name] = {"duration": duration, "change": change,
+			"block_percent": block_percent, "boost_percent": boost_percent,
+			"block_flat": block_flat, "boost_flat": boost_flat}
+
+func sum_and_clean_values(list: Array, dict: Dictionary, delta: float) -> float:
+	var count: int = 0
+	var change: float = 0.0
+	var block_percent: float = 0.0
+	var boost_percent: float = 0.0
+	var block_flat: float = 0.0
+	var boost_flat: float = 0.0
+	
+	for value: float in list:
+		if value > 0.0:
+			count += 1
+			change += value
+	list.clear()
+	
+	for key: String in dict:
+		var entry: Dictionary = dict[key]
+		if entry["duration"] < 0.0:
+			dict.erase(key)
+		else:
+			entry["duration"] -= delta
+		
+		if entry["change"] > 0.0:
+			count += 1
+			change += entry["change"] * min(delta, entry["duration"])
+		
+		block_percent += (1 - block_percent) * max(0.0, entry["block_percent"])
+		boost_percent += (1 - block_percent) * max(0.0, entry["boost_percent"])
+		block_flat += max(0.0, entry["block_flat"])
+		boost_flat += max(0.0, entry["boost_flat"])
+	return max(0.0, change * (1 - block_percent) * (1 + boost_percent) + (boost_flat - block_flat) * count)

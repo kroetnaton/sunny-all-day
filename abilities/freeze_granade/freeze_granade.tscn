@@ -24,7 +24,10 @@ height = 10.0
 script = ExtResource("1_crpot")
 
 [node name="AbilityBase" parent="." instance=ExtResource("1_nn38r")]
-damage = 0.0
+ability_name = "FreezeGranade"
+cooldown = 8.0
+duration = 10.0
+damage_boost_percent = 3.0
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("SphereMesh_rdwg0")

@@ -11,6 +11,7 @@ visible = false
 script = ExtResource("1_l1a0d")
 
 [node name="AbilityBase" parent="." instance=ExtResource("2_bvlek")]
+ability_name = "Hookshot"
 cooldown = 5.0
 
 [node name="TargetVisual" type="MeshInstance3D" parent="."]

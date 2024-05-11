@@ -9,7 +9,9 @@ script = ExtResource("1_hw7hk")
 
 [node name="AbilityBase" type="Node3D" parent="."]
 script = ExtResource("2_q37iw")
+ability_name = "LaserShot"
 cooldown = 1.0
+damage = 35.0
 
 [node name="CircleSpawner" parent="." instance=ExtResource("3_0r44n")]
 part = 2
