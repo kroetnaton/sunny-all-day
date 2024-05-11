@@ -42,6 +42,7 @@ func sum_and_clean_values(list: Array, dict: Dictionary, delta: float) -> float:
 	var block_flat: float = 0.0
 	var boost_flat: float = 0.0
 	
+	var count: int = 0
 	for key: String in dict:
 		var entry: Dictionary = dict[key]
 		if entry["duration"] < 0.0:
@@ -50,12 +51,14 @@ func sum_and_clean_values(list: Array, dict: Dictionary, delta: float) -> float:
 			entry["duration"] -= delta
 		
 		if entry["change"] > 0.0:
+			count += 1
 			change += entry["change"] * min(delta, entry["duration"])
 		
 		block_percent += (1 - block_percent) * max(0.0, entry["block_percent"])
 		boost_percent += (1 - block_percent) * max(0.0, entry["boost_percent"])
 		block_flat += max(0.0, entry["block_flat"])
 		boost_flat += max(0.0, entry["boost_flat"])
+	change += (boost_flat - block_flat) * count * delta
 	
 	for value: float in list:
 		if value > 0.0:
