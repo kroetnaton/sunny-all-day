@@ -43,9 +43,7 @@ func _process(_delta) -> void:
 			ability_controller.uncast(slot)
 	
 	var input: Vector2 = Input.get_vector("Left", "Right", "Forward", "Backward")
-	movement_controller.move_direction(Vector3(input.x, 0, input.y))
-	if Input.is_action_pressed("Jump"):
-		movement_controller.jump()
+	movement_controller.set_movement(Vector3(input.x, 0, input.y), Input.is_action_pressed("Jump"))
 	
 	if position.y < -20:
 		position = Vector3.ZERO

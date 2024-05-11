@@ -10,12 +10,12 @@ var dot_container: Dictionary = {}
 var heal_list: Array = []
 var hot_container: Dictionary = {}
 
-func add_damage_changes(name: String, duration: float, change: float, block_percent: float,
-		boost_percent: float, block_flat: float, boost_flat: float) -> void:
+func add_damage_changes(name: String, duration: float = 0.0, change: float = 0.0, block_percent: float = 0.0,
+		boost_percent: float = 0.0, block_flat: float = 0.0, boost_flat: float = 0.0) -> void:
 	add_values(dot_container, name, duration, change, block_percent, boost_percent, block_flat, boost_flat)
 
-func add_heal_changes(name: String, duration: float, change: float, block_percent: float,
-		boost_percent: float, block_flat: float, boost_flat: float) -> void:
+func add_heal_changes(name: String, duration: float = 0.0, change: float = 0.0, block_percent: float = 0.0,
+		boost_percent: float = 0.0, block_flat: float = 0.0, boost_flat: float = 0.0) -> void:
 	add_values(hot_container, name, duration, change, block_percent, boost_percent, block_flat, boost_flat)
 
 func _process(delta: float) -> void:
@@ -31,7 +31,8 @@ func _process(delta: float) -> void:
 
 func add_values(dict: Dictionary, name: String, duration: float, change: float, block_percent: float,
 		boost_percent: float, block_flat: float, boost_flat: float) -> void:
-	dict[name] = {"duration": duration, "change": change,
+	dict[name] = {
+			"duration": duration, "change": change,
 			"block_percent": block_percent, "boost_percent": boost_percent,
 			"block_flat": block_flat, "boost_flat": boost_flat}
 

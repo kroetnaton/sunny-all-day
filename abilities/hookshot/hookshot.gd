@@ -29,12 +29,12 @@ func _process(delta: float) -> void:
 		return
 	
 	# Move parent to target until reached, then keep parent there
-	movement_controller.lock_movement()
+	var force_movement: Vector3 = Vector3.ZERO
 	if stop_distance < muzzle.global_position.distance_to(ability_base.target_point) and not is_target_reached:
-		movement_controller.force_move_direction(
-			muzzle.global_position.direction_to(ability_base.target_point), speed)
+		force_movement = muzzle.global_position.direction_to(ability_base.target_point) * speed
 	else:
 		is_target_reached = true
+	movement_controller.add_movement_effect(ability_base.name, 0.0, force_movement, 0.0, 0.0, true)
 
 func _uncast(_ability_base: AbilityBase) -> void:
 	queue_free()

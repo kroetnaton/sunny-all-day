@@ -6,7 +6,10 @@ class_name MovementController
 @export var gravity: Vector3 = Vector3.DOWN
 @export var air_speed_multiplier:float = 0.4
 
-@export var jump_max_count: int = 2
+var effect_container: Dictionary = {}
+
+@export var default_jump_max_count: int = 2
+var jump_max_count: int = default_jump_max_count
 var jump_count: int = jump_max_count
 var jump_cooldown: float = 0.2
 var jump_timer: float = jump_cooldown
@@ -19,31 +22,27 @@ var can_jump: bool = true
 var movement: Vector3 = Vector3.ZERO
 var force_movement: Vector3 = Vector3.ZERO
 
-var HORIZONTAL_MOVEMENT: Vector3 = Vector3(1, 0, 1)
-var VERTICAL_MOVEMENT: Vector3 = Vector3.UP
+const HORIZONTAL_MOVEMENT: Vector3 = Vector3(1, 0, 1)
+const VERTICAL_MOVEMENT: Vector3 = Vector3.UP
 
-func move_direction(direction: Vector3, is_local: bool = true) -> void:
-	if is_local:
-		direction = parent.transform.basis * direction
-	movement += direction.normalized() * speed_multiplier
-
-func force_move_direction(direction: Vector3, speed: float, is_local: bool = false) -> void:
-	if is_local:
-		direction = parent.transform.basis * direction
-	force_movement += direction.normalized() * speed
-
-func lock_movement() -> void:
-	move_multiplier *= 0.0
-	fall_multiplier *= 0.0
-	can_jump = false
-
-func jump() -> void:
-	if can_jump and jump_count > 0 and jump_timer < 0:
+func set_movement(direction: Vector3 = Vector3.ZERO, jump: bool = false) -> void:
+	movement = (parent.transform.basis * direction).normalized() * speed_multiplier
+	if jump and can_jump and jump_count > 0 and jump_timer < 0:
 		jump_count -= 1
 		jump_timer = jump_cooldown
 		movement += jump_acceleration
 
-func _physics_process(delta) -> void:
+func add_movement_effect(name: String, duration: float, force_movement: Vector3 = Vector3.ZERO,
+		speed_factor: float = 1.0, fall_factor: float = 1.0,
+		disable_jump: bool = false, added_jumps: int = 0) -> void:
+	effect_container[name] = {
+			"duration": duration, "force_movement": force_movement,
+			"speed_factor": speed_factor, "fall_factor": fall_factor,
+			"disable_jump": disable_jump, "added_jumps": added_jumps}
+
+func _physics_process(delta: float) -> void:
+	handle_and_clean_effects(delta)
+	
 	if jump_timer > 0:
 		jump_timer -= delta
 	
@@ -67,10 +66,21 @@ func _physics_process(delta) -> void:
 	movement = movement * HORIZONTAL_MOVEMENT * move_multiplier + movement * VERTICAL_MOVEMENT * fall_multiplier
 	parent.velocity = movement + force_movement
 	parent.move_and_slide()
-	
-	# Reset all necessary fields
-	movement = Vector3.ZERO
+
+func handle_and_clean_effects(delta: float) -> void:
 	force_movement = Vector3.ZERO
 	move_multiplier = 1.0
 	fall_multiplier = 1.0
 	can_jump = true
+	jump_count = jump_max_count
+	for key: String in effect_container:
+		var entry: Dictionary = effect_container[key]
+		if entry["duration"] < 0.0:
+			effect_container.erase(key)
+		else:
+			entry["duration"] -= delta
+		force_movement += entry["force_movement"]
+		move_multiplier *= entry["speed_factor"]
+		fall_multiplier *= entry["fall_factor"]
+		can_jump = can_jump && not entry["disable_jump"]
+		jump_count += entry["added_jumps"]
