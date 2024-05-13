@@ -23,7 +23,7 @@ func _physics_process(delta: float) -> void:
 		velocity.y -= gravity * delta
 	move_and_slide()
 
-func _on_contact(body: Node3D) -> void:
+func _on_contact(_body: Node3D) -> void:
 	explosion_area.visible = true
 	explosion_area.monitoring = true
 	exploded = true

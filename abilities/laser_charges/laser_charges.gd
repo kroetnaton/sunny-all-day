@@ -35,7 +35,7 @@ func _recast(ability_base_temp: AbilityBase):
 	if duration < 0.0 or beam_cooldown > 0.0:
 		return
 	
-	for i: int in 1 + beam_cooldown / actual_beam_cooldown * -1:
+	for i: int in round(1 + beam_cooldown / actual_beam_cooldown * -1):
 		if circle_spawner.has_spawn_next():
 			var laser: Laser = circle_spawner.spawn_next(ability_base_temp.target_point)
 			laser.hit.connect(ability_base._on_hit)

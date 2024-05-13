@@ -32,13 +32,11 @@ func set_movement(direction: Vector3 = Vector3.ZERO, jump: bool = false) -> void
 		jump_timer = jump_cooldown
 		movement += jump_acceleration
 
-func add_movement_effect(name: String, duration: float, force_movement: Vector3 = Vector3.ZERO,
+func add_movement_effect(effect_name: String, duration: float, effect_force_movement: Vector3 = Vector3.ZERO,
 		speed_factor: float = 1.0, fall_factor: float = 1.0,
 		disable_jump: bool = false, added_jumps: int = 0) -> void:
-	effect_container[name] = {
-			"duration": duration, "force_movement": force_movement,
-			"speed_factor": speed_factor, "fall_factor": fall_factor,
-			"disable_jump": disable_jump, "added_jumps": added_jumps}
+	effect_container[effect_name] = MovementEffect.new(duration, effect_force_movement, speed_factor, fall_factor,
+			disable_jump, added_jumps)
 
 func _physics_process(delta: float) -> void:
 	handle_and_clean_effects(delta)
@@ -74,13 +72,29 @@ func handle_and_clean_effects(delta: float) -> void:
 	can_jump = true
 	jump_count = jump_max_count
 	for key: String in effect_container:
-		var entry: Dictionary = effect_container[key]
-		if entry["duration"] < 0.0:
+		var entry: MovementEffect = effect_container[key]
+		if entry.duration < 0.0:
 			effect_container.erase(key)
 		else:
-			entry["duration"] -= delta
-		force_movement += entry["force_movement"]
-		move_multiplier *= entry["speed_factor"]
-		fall_multiplier *= entry["fall_factor"]
-		can_jump = can_jump && not entry["disable_jump"]
-		jump_count += entry["added_jumps"]
+			entry.duration -= delta
+		force_movement += entry.force_movement
+		move_multiplier *= entry.speed_factor
+		fall_multiplier *= entry.fall_factor
+		can_jump = can_jump && not entry.disable_jump
+		jump_count += entry.added_jumps
+
+class MovementEffect:
+	var duration: float = 0.0
+	var force_movement: Vector3 = Vector3.ZERO
+	var speed_factor: float = 1.0
+	var fall_factor: float = 1.0
+	var disable_jump: bool = false
+	var added_jumps: int = 0
+	func _init(duration_i: float, force_movement_i: Vector3, speed_factor_i: float, fall_factor_i: float,
+			disable_jump_i: bool, added_jumps_i: int) -> void:
+		duration = duration_i
+		force_movement = force_movement_i
+		speed_factor = speed_factor_i
+		fall_factor = fall_factor_i
+		disable_jump = disable_jump_i
+		added_jumps = added_jumps_i

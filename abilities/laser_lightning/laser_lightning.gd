@@ -19,7 +19,7 @@ func _initilise() -> void:
 		laser.hit.connect(ability_base._on_hit)
 		lasers.append(laser)
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	for laser: Laser in lasers:
 		if is_instance_valid(laser):
 			return

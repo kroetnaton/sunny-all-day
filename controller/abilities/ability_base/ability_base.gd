@@ -5,7 +5,7 @@ var parent: Node3D
 var controller: AbilityController
 var muzzle: Marker3D
 var aim_point: Marker3D
-var slot: Dictionary
+var slot: AbilityController.SlotData
 var is_target_collision: bool
 var target_point: Vector3
 var target_object: Object
@@ -45,10 +45,10 @@ func _on_hit(body: Node3D) -> void:
 	if "life_controller" in body:
 		var life_controller: LifeController = body.life_controller
 		life_controller.damage_list.append(damage)
-		life_controller.add_damage_changes(ability_name, duration, dot,
+		life_controller.add_damage_effect(ability_name, duration, dot,
 				damage_block_percent, damage_boost_percent, damage_block_flat, damage_boost_flat)
 		life_controller.heal_list.append(heal)
-		life_controller.add_heal_changes(ability_name, duration, hot,
+		life_controller.add_heal_effect(ability_name, duration, hot,
 				heal_block_percent, heal_boost_percent, heal_block_flat, heal_boost_flat)
 	if "movement_controller" in body:
 		var movement_controller: MovementController = body.movement_controller

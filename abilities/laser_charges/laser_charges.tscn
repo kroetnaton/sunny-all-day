@@ -9,7 +9,6 @@ script = ExtResource("1_f8tkv")
 
 [node name="AbilityBase" type="Node3D" parent="."]
 script = ExtResource("2_ostyw")
-ability_name = "LaserCharges"
 cooldown = 8.0
 damage = 35.0
 
