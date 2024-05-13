@@ -24,20 +24,36 @@ signal special_uncast(ability_base: AbilityBase)
 	Enums.AbilitySlot.Special: {"ability":Enums.Ability.Nothing, "slot":Enums.AbilitySlot.Special, "timer":0., "recast":special_recast, "uncast":special_uncast},
 }
 
+var effects_container: Dictionary = {
+	Enums.AbilitySlot.Primary: {},
+	Enums.AbilitySlot.Secondary: {},
+	Enums.AbilitySlot.Utility: {},
+	Enums.AbilitySlot.Special: {},
+}
+
 func _process(delta: float) -> void:
-	for slot in ability_slot_dict:
+	for slot: Enums.AbilitySlot in ability_slot_dict:
 		if Enums.Ability.Nothing == ability_slot_dict[slot]["ability"]:
 			cast(slot)
 		var slot_dict: Dictionary = ability_slot_dict[slot]
 		if slot_dict["timer"] > 0.0:
-			slot_dict["timer"] -= delta
+			slot_dict["timer"] -= delta * get_cooldown_factor(slot)
 			var cooldown_visual: CooldownVisual = cooldown_hud.cooldown_visual_dict[slot]
 			cooldown_visual.set_current(slot_dict["timer"])
+		var dict: Dictionary = effects_container[slot]
+		for key: String in dict:
+			var entry: Dictionary = dict[key]
+			if entry["duration"] < 0.0:
+				dict.erase(key)
+			else:
+				entry["duration"] -= delta
 
 func set_ability(ability: Enums.Ability, slot: Enums.AbilitySlot) -> void:
 	ability_slot_dict[slot]["ability"] = ability
 
 func cast(slot: Enums.AbilitySlot) -> void:
+	if is_disabled(slot):
+		return
 	var slot_dict: Dictionary = ability_slot_dict[slot]
 	emit_signal(slot_dict["recast"].get_name(), create_ability_base(slot_dict))
 	if slot_dict["timer"] > 0.0:
@@ -48,6 +64,24 @@ func cast(slot: Enums.AbilitySlot) -> void:
 func uncast(slot: Enums.AbilitySlot) -> void:
 	var slot_dict: Dictionary = ability_slot_dict[slot]
 	emit_signal(slot_dict["uncast"].get_name(), create_ability_base(slot_dict))
+
+func add_ability_effect(slot: Enums.AbilitySlot, name: String, duration: float,
+		disabled: bool = false, cooldown_factor: float = 1.0) -> void:
+	effects_container[slot][name] = {"duration": duration, "disabled": disabled, "cooldown_factor": cooldown_factor}
+
+func get_cooldown_factor(slot: Enums.AbilitySlot) -> float:
+	var cooldown_factor: float = 1.0
+	var dict: Dictionary = effects_container[slot]
+	for key: String in dict:
+		cooldown_factor *= dict[key]["cooldown_factor"] 
+	return cooldown_factor
+
+func is_disabled(slot: Enums.AbilitySlot) -> bool:
+	var disabled: bool = false
+	var dict: Dictionary = effects_container[slot]
+	for key: String in dict:
+		disabled = disabled || dict[key]["disabled"]
+	return disabled
 
 func set_time(slot_dict: Dictionary, time: float) -> void:
 	slot_dict["timer"] = time

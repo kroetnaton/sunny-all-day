@@ -30,6 +30,12 @@ var target_object: Object
 @export var fall_factor: float = 1.0
 @export var disable_jump: bool = false
 @export var added_jumps: int = 0
+@export var affects_primary: bool = false
+@export var affects_secondary: bool = false
+@export var affects_utility: bool = false
+@export var affects_special: bool = false
+@export var disable_ability: bool = false
+@export var ability_cooldown_factor: float = 1.0
 
 @onready var ability_name: String = get_parent().name
 func _on_hit(body: Node3D) -> void:
@@ -44,8 +50,17 @@ func _on_hit(body: Node3D) -> void:
 		life_controller.heal_list.append(heal)
 		life_controller.add_heal_changes(ability_name, duration, hot,
 				heal_block_percent, heal_boost_percent, heal_block_flat, heal_boost_flat)
-	
 	if "movement_controller" in body:
 		var movement_controller: MovementController = body.movement_controller
 		movement_controller.add_movement_effect(ability_name, duration, force_movement, speed_factor, fall_factor,
 				disable_jump, added_jumps)
+	if "ability_controller" in body:
+		var ability_controller: AbilityController = body.ability_controller
+		if affects_primary:
+			ability_controller.add_ability_effect(Enums.AbilitySlot.Primary, ability_name, duration, disable_ability, ability_cooldown_factor)
+		if affects_secondary:
+			ability_controller.add_ability_effect(Enums.AbilitySlot.Secondary, ability_name, duration, disable_ability, ability_cooldown_factor)
+		if affects_utility:
+			ability_controller.add_ability_effect(Enums.AbilitySlot.Utility, ability_name, duration, disable_ability, ability_cooldown_factor)
+		if affects_special:
+			ability_controller.add_ability_effect(Enums.AbilitySlot.Special, ability_name, duration, disable_ability, ability_cooldown_factor)
