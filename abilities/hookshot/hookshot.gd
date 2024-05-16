@@ -28,7 +28,8 @@ func _process(delta: float) -> void:
 		queue_free()
 		return
 	
-	ability_base._on_hit(ability_base.target_object)
+	if is_instance_valid(ability_base.target_object):
+		ability_base._on_hit(ability_base.target_object)
 	
 	# Move parent to target until reached, then keep parent there
 	var force_movement: Vector3 = Vector3.ZERO
@@ -36,7 +37,7 @@ func _process(delta: float) -> void:
 		force_movement = muzzle.global_position.direction_to(ability_base.target_point) * speed
 	else:
 		is_target_reached = true
-	movement_controller.add_movement_effect(ability_base.name, 0.0, force_movement, 0.0, 0.0, true)
+	movement_controller.add_movement_effect(ability_base.ability_name, 0.0, force_movement, 0.0, 0.0, true)
 
 func _uncast(_ability_base: AbilityBase) -> void:
 	queue_free()

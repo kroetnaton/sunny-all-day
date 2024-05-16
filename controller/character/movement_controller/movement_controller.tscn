@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://hy7fcsdx2bf7"]
 
-[ext_resource type="Script" path="res://controller/character/movement_controller/movement_controller.gd" id="1_lond8"]
+[ext_resource type="Script" path="res://controller/character/movement_controller/movement_controller.gd" id="1_hl00v"]
 
 [node name="MovementController" type="Node3D"]
-script = ExtResource("1_lond8")
+script = ExtResource("1_hl00v")

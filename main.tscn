@@ -34,7 +34,7 @@ special = 4
 
 [node name="Turret" parent="." instance=ExtResource("2_13tqx")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 1, -20)
-ability = 3
+ability = 5
 
 [node name="Ground" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
