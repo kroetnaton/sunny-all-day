@@ -3,6 +3,7 @@
 [ext_resource type="Script" path="res://entities/turret/turret.gd" id="1_x743x"]
 [ext_resource type="PackedScene" uid="uid://guniw5vobaw2" path="res://controller/character/life_controller/life_controller.tscn" id="2_swi1r"]
 [ext_resource type="PackedScene" uid="uid://cew60xmpm88f0" path="res://controller/abilities/ability_controller/ability_controller.tscn" id="3_484hj"]
+[ext_resource type="PackedScene" uid="uid://1603plgxjtft" path="res://controller/character/aggro_controller/aggro_controller.tscn" id="4_os7b8"]
 [ext_resource type="PackedScene" uid="uid://hy7fcsdx2bf7" path="res://controller/character/movement_controller/movement_controller.tscn" id="4_s3vgh"]
 [ext_resource type="PackedScene" uid="uid://cgd1r0dhbs8df" path="res://controller/hud/life_hud/life_hud.tscn" id="4_sgby2"]
 [ext_resource type="PackedScene" uid="uid://d1pslehy0udds" path="res://controller/hud/cooldown_hud/cooldown_hud.tscn" id="5_ryaps"]
@@ -19,9 +20,6 @@ radius = 1.0
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_tf4vj"]
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_0k03r"]
-
-[sub_resource type="SphereShape3D" id="SphereShape3D_bk3eu"]
-radius = 30.0
 
 [node name="Turret" type="CharacterBody3D"]
 collision_layer = 5
@@ -50,6 +48,10 @@ skeleton = NodePath("../..")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.5)
 cooldown_hud = NodePath("../../CooldownHud")
 
+[node name="AggroController" parent="HeadCollision/Head" instance=ExtResource("4_os7b8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.5)
+deaggro_radius = 40.0
+
 [node name="Mouth" type="MeshInstance3D" parent="HeadCollision/Head"]
 transform = Transform3D(0.5, 0, 0, 0, -2.18557e-08, -0.5, 0, 0.5, -2.18557e-08, 0, 0, -1)
 mesh = SubResource("CapsuleMesh_fderk")
@@ -61,12 +63,3 @@ shape = SubResource("CylinderShape3D_tf4vj")
 [node name="Body" type="MeshInstance3D" parent="BodyCollision"]
 mesh = SubResource("CylinderMesh_0k03r")
 skeleton = NodePath("../../HeadCollision/Head")
-
-[node name="AggroArea" type="Area3D" parent="."]
-collision_layer = 0
-collision_mask = 2
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="AggroArea"]
-shape = SubResource("SphereShape3D_bk3eu")
-
-[connection signal="body_entered" from="AggroArea" to="." method="_on_aggro_area_body_entered"]

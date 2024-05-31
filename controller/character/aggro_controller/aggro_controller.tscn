@@ -1,0 +1,28 @@
+[gd_scene load_steps=4 format=3 uid="uid://1603plgxjtft"]
+
+[ext_resource type="Script" path="res://controller/character/aggro_controller/aggro_controller.gd" id="1_u58wi"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_ofis2"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_rgmgc"]
+
+[node name="AggroController" type="Node3D"]
+script = ExtResource("1_u58wi")
+aggro_mask = 2
+blocking_mask = 7
+
+[node name="Sightline" type="RayCast3D" parent="."]
+
+[node name="AggroArea" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="AggroArea"]
+shape = SubResource("SphereShape3D_ofis2")
+
+[node name="DeaggroArea" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="DeaggroArea"]
+shape = SubResource("SphereShape3D_rgmgc")
+
+[connection signal="body_entered" from="AggroArea" to="." method="_on_aggro_area_body_entered"]
+[connection signal="body_exited" from="AggroArea" to="." method="_on_aggro_area_body_exited"]
+[connection signal="body_exited" from="DeaggroArea" to="." method="_on_deaggro_area_body_exited"]
