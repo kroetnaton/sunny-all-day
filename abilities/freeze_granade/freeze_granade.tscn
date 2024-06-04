@@ -29,10 +29,7 @@ duration = 3.0
 damage_boost_percent = 3.0
 speed_factor = 0.0
 disable_jump = true
-affects_primary = true
-affects_secondary = true
-affects_utility = true
-affects_special = true
+affected_abilities = 15
 disable_ability = true
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
