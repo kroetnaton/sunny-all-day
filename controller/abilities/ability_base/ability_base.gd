@@ -13,29 +13,39 @@ var target_object: Object
 @export var cooldown: float = 3.0
 @export var duration: float = 0.0
 
+@export_group("Health Changes")
+@export_subgroup("Damage")
 @export var damage: float = 0.0
 @export var dot: float = 0.0
 @export var damage_block_percent: float = 0.0
 @export var damage_boost_percent: float = 0.0
 @export var damage_block_flat: float = 0.0
 @export var damage_boost_flat: float = 0.0
+@export_subgroup("Heal")
 @export var heal: float = 0.0
 @export var hot: float = 0.0
 @export var heal_block_percent: float = 0.0
 @export var heal_boost_percent: float = 0.0
 @export var heal_block_flat: float = 0.0
 @export var heal_boost_flat: float = 0.0
+@export_group("Movement")
 @export var force_movement: Vector3 = Vector3.ZERO
 @export var speed_factor: float = 1.0
 @export var fall_factor: float = 1.0
+@export_subgroup("Jumps")
 @export var disable_jump: bool = false
 @export var added_jumps: int = 0
-@export var affects_primary: bool = false
-@export var affects_secondary: bool = false
-@export var affects_utility: bool = false
-@export var affects_special: bool = false
+@export_group("Abilities")
+@export_flags("Primary", "Secondary", "Utility", "Special") var affected_abilities: int = 0
 @export var disable_ability: bool = false
 @export var ability_cooldown_factor: float = 1.0
+
+var slot_flags: Dictionary = {
+	Enums.AbilitySlot.Primary: 1 << 0,
+	Enums.AbilitySlot.Secondary: 1 << 1,
+	Enums.AbilitySlot.Utility: 1 << 2,
+	Enums.AbilitySlot.Special: 1 << 3,
+}
 
 @onready var ability_name: String = get_parent().name
 func _on_hit(body: Node3D) -> void:
@@ -56,11 +66,6 @@ func _on_hit(body: Node3D) -> void:
 				disable_jump, added_jumps)
 	if "ability_controller" in body:
 		var ability_controller: AbilityController = body.ability_controller
-		if affects_primary:
-			ability_controller.add_ability_effect(Enums.AbilitySlot.Primary, ability_name, duration, disable_ability, ability_cooldown_factor)
-		if affects_secondary:
-			ability_controller.add_ability_effect(Enums.AbilitySlot.Secondary, ability_name, duration, disable_ability, ability_cooldown_factor)
-		if affects_utility:
-			ability_controller.add_ability_effect(Enums.AbilitySlot.Utility, ability_name, duration, disable_ability, ability_cooldown_factor)
-		if affects_special:
-			ability_controller.add_ability_effect(Enums.AbilitySlot.Special, ability_name, duration, disable_ability, ability_cooldown_factor)
+		for key: Enums.AbilitySlot in slot_flags:
+			if slot_flags[key] & affected_abilities:
+				ability_controller.add_ability_effect(key, ability_name, duration, disable_ability, ability_cooldown_factor)
