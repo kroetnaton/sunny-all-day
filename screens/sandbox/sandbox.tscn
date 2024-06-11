@@ -1,7 +1,7 @@
 [gd_scene load_steps=9 format=3 uid="uid://dq51gpbe63cx7"]
 
-[ext_resource type="PackedScene" uid="uid://cvsnscha3012d" path="res://entities/player/player.tscn" id="1_neldj"]
-[ext_resource type="PackedScene" uid="uid://du42pw2umdhu3" path="res://entities/turret/turret.tscn" id="2_13tqx"]
+[ext_resource type="PackedScene" uid="uid://cvsnscha3012d" path="res://entities/player/player.tscn" id="1_4hh58"]
+[ext_resource type="PackedScene" uid="uid://du42pw2umdhu3" path="res://entities/turret/turret.tscn" id="2_dyr8n"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_5p7ya"]
 size = Vector3(50, 1, 50)
@@ -25,14 +25,14 @@ size = Vector3(4, 1, 4)
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 40, 0)
 
-[node name="Player" parent="." instance=ExtResource("1_neldj")]
+[node name="Player" parent="." instance=ExtResource("1_4hh58")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 2, 10)
 primary = 5
 secondary = 6
 utility = 7
 special = 8
 
-[node name="Turret" parent="." instance=ExtResource("2_13tqx")]
+[node name="Turret" parent="." instance=ExtResource("2_dyr8n")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 1, -20)
 ability = 5
 
