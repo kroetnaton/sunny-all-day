@@ -27,8 +27,7 @@ radius = 30.0
 collision_layer = 5
 script = ExtResource("1_x743x")
 
-[node name="LifeController" parent="." node_paths=PackedStringArray("life_hud") instance=ExtResource("2_swi1r")]
-life_hud = NodePath("../HeadCollision/LifeHud")
+[node name="LifeController" parent="." instance=ExtResource("2_swi1r")]
 
 [node name="MovementController" parent="." instance=ExtResource("4_s3vgh")]
 
@@ -46,9 +45,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.65, 0)
 mesh = SubResource("SphereMesh_colk6")
 skeleton = NodePath("../..")
 
-[node name="AbilityController" parent="HeadCollision/Head" node_paths=PackedStringArray("cooldown_hud") instance=ExtResource("3_484hj")]
+[node name="AbilityController" parent="HeadCollision/Head" instance=ExtResource("3_484hj")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.5)
-cooldown_hud = NodePath("../../CooldownHud")
 
 [node name="Mouth" type="MeshInstance3D" parent="HeadCollision/Head"]
 transform = Transform3D(0.5, 0, 0, 0, -2.18557e-08, -0.5, 0, 0.5, -2.18557e-08, 0, 0, -1)
@@ -69,4 +67,9 @@ collision_mask = 2
 [node name="CollisionShape3D" type="CollisionShape3D" parent="AggroArea"]
 shape = SubResource("SphereShape3D_bk3eu")
 
+[connection signal="death" from="LifeController" to="." method="queue_free"]
+[connection signal="health_change" from="LifeController" to="HeadCollision/LifeHud" method="_on_health_change"]
+[connection signal="max_health_change" from="LifeController" to="HeadCollision/LifeHud" method="_on_max_health_change"]
+[connection signal="time_change" from="HeadCollision/Head/AbilityController" to="HeadCollision/CooldownHud" method="_on_time_change"]
+[connection signal="time_set" from="HeadCollision/Head/AbilityController" to="HeadCollision/CooldownHud" method="_on_time_set"]
 [connection signal="body_entered" from="AggroArea" to="." method="_on_aggro_area_body_entered"]

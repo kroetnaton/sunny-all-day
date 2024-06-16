@@ -7,3 +7,9 @@ class_name CooldownHud
 	Enums.AbilitySlot.Utility: $SubViewport/GridContainer/PanelContainerUtility/CooldownUtility,
 	Enums.AbilitySlot.Special: $SubViewport/GridContainer/PanelContainerSpecial/CooldownSpecial,
 }
+
+func _on_time_set(slot: Enums.AbilitySlot, time: float) -> void:
+	cooldown_visual_dict[slot].set_cooldown(time)
+
+func _on_time_change(slot: Enums.AbilitySlot, time: float) -> void:
+	cooldown_visual_dict[slot].set_current(time)
