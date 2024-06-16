@@ -47,3 +47,6 @@ func _process(_delta) -> void:
 	
 	if position.y < -20:
 		position = Vector3.ZERO
+
+func _on_death():
+	get_tree().change_scene_to_packed(load("res://screens/start/start_screen.tscn"))
