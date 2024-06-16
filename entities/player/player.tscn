@@ -20,8 +20,7 @@
 collision_layer = 3
 script = ExtResource("1_t44mj")
 
-[node name="LifeController" parent="." node_paths=PackedStringArray("life_hud") instance=ExtResource("2_2u3ws")]
-life_hud = NodePath("../Pivot/LifeHud")
+[node name="LifeController" parent="." instance=ExtResource("2_2u3ws")]
 
 [node name="MovementController" parent="." instance=ExtResource("2_cq6hj")]
 
@@ -70,7 +69,12 @@ margin = 0.5
 [node name="Camera3D" type="Camera3D" parent="ViewPivot/SpringArm3D"]
 current = true
 
-[node name="AbilityController" parent="ViewPivot/SpringArm3D/Camera3D" node_paths=PackedStringArray("cooldown_hud") instance=ExtResource("2_86m7a")]
-cooldown_hud = NodePath("../../../../Pivot/CooldownHud")
+[node name="AbilityController" parent="ViewPivot/SpringArm3D/Camera3D" instance=ExtResource("2_86m7a")]
 
 [node name="HUD" parent="ViewPivot/SpringArm3D/Camera3D" instance=ExtResource("5_76tqt")]
+
+[connection signal="death" from="LifeController" to="." method="queue_free"]
+[connection signal="health_change" from="LifeController" to="Pivot/LifeHud" method="_on_health_change"]
+[connection signal="max_health_change" from="LifeController" to="Pivot/LifeHud" method="_on_max_health_change"]
+[connection signal="time_change" from="ViewPivot/SpringArm3D/Camera3D/AbilityController" to="Pivot/CooldownHud" method="_on_time_change"]
+[connection signal="time_set" from="ViewPivot/SpringArm3D/Camera3D/AbilityController" to="Pivot/CooldownHud" method="_on_time_set"]
