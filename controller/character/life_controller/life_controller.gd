@@ -1,9 +1,18 @@
 extends Node3D
 class_name LifeController
 
-@export var max_health: float = 100.0
-@onready var health: float = max_health
-@export var life_hud: LifeHud
+signal death
+signal max_health_change(max_health: float)
+signal health_change(health: float)
+
+@export var max_health: float = 100.0:
+	set(change):
+		max_health = change
+		max_health_change.emit(max_health)
+@onready var health: float = max_health:
+	set(change):
+		health = change
+		health_change.emit(health)
 
 var damage_list: Array = []
 var dot_container: Dictionary = {}
@@ -22,12 +31,7 @@ func _process(delta: float) -> void:
 	health += sum_and_clean_values(heal_list, hot_container, delta) - \
 			sum_and_clean_values(damage_list, dot_container, delta)
 	if health <= 0.0:
-		get_parent().queue_free()
-	
-	# Update visual
-	if is_instance_valid(life_hud):
-		life_hud.health_bar.max_value = max_health
-		life_hud.health_bar.value = health
+		death.emit()
 
 func add_values(dict: Dictionary, effect_name: String, duration: float, change: float, block_percent: float,
 		boost_percent: float, block_flat: float, boost_flat: float) -> void:

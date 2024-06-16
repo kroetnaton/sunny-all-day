@@ -1,6 +1,9 @@
 extends Node3D
 class_name AbilityController
 
+signal time_set(slot: Enums.AbilitySlot, time: float)
+signal time_change(slot: Enums.AbilitySlot, time: float)
+
 signal primary_recast(ability_base: AbilityBase)
 signal primary_uncast(ability_base: AbilityBase)
 signal secondary_recast(ability_base: AbilityBase)
@@ -14,8 +17,6 @@ signal special_uncast(ability_base: AbilityBase)
 @onready var muzzle: Marker3D = $Muzzle
 @onready var ray_cast: RayCast3D = $RayCast3D
 @onready var spring_arm_marker: Marker3D = $SpringArm3D/Marker3D
-
-@export var cooldown_hud: CooldownHud
 
 @onready var ability_slot_dict: Dictionary = {
 	Enums.AbilitySlot.Primary: SlotData.new(Enums.Ability.Nothing, Enums.AbilitySlot.Primary, 0.0, primary_recast, primary_uncast),
@@ -38,8 +39,7 @@ func _process(delta: float) -> void:
 			cast(slot)
 		if slot_data.timer > 0.0:
 			slot_data.timer -= delta * get_cooldown_factor(slot)
-			var cooldown_visual: CooldownVisual = cooldown_hud.cooldown_visual_dict[slot]
-			cooldown_visual.set_current(slot_data.timer)
+			time_change.emit(slot, slot_data.timer)
 		var dict: Dictionary = effects_container[slot]
 		for key: String in dict:
 			var entry: AbilityEffect = dict[key]
@@ -85,8 +85,7 @@ func is_disabled(slot: Enums.AbilitySlot) -> bool:
 
 func set_time(slot_data: SlotData, time: float) -> void:
 	slot_data.timer = time
-	var visual: CooldownVisual = cooldown_hud.cooldown_visual_dict[slot_data.slot]
-	visual.set_cooldown(time)
+	time_set.emit(slot_data.slot, time)
 
 func instantiate_scene(slot_data: SlotData) -> Node3D:
 	var node: Node3D = AbilitySceneLoader.preload_dict[slot_data.ability].instantiate()
