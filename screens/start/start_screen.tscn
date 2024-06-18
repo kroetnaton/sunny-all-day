@@ -26,34 +26,22 @@ size_flags_horizontal = 8
 size_flags_vertical = 8
 text = "Quit"
 
-[node name="TabContainer" type="TabContainer" parent="PanelContainer"]
+[node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer"]
 layout_mode = 2
+size_flags_horizontal = 4
 size_flags_vertical = 0
-all_tabs_in_front = true
 
-[node name="Scout" type="VBoxContainer" parent="PanelContainer/TabContainer"]
+[node name="GridContainer" type="GridContainer" parent="PanelContainer/ScrollContainer"]
 layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+columns = 9
 
-[node name="GridContainer" type="GridContainer" parent="PanelContainer/TabContainer/Scout"]
+[node name="SlotButtonContainer" type="GridContainer" parent="PanelContainer"]
 layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
 columns = 4
-
-[node name="RichTextLabel2" type="RichTextLabel" parent="PanelContainer/TabContainer/Scout/GridContainer"]
-custom_minimum_size = Vector2(100, 100)
-layout_mode = 2
-text = "Test2"
-
-[node name="RichTextLabel" type="RichTextLabel" parent="PanelContainer/TabContainer/Scout/GridContainer"]
-layout_mode = 2
-text = "Test Again"
-
-[node name="GridContainer2" type="GridContainer" parent="PanelContainer/TabContainer/Scout"]
-layout_mode = 2
-
-[node name="RichTextLabel" type="RichTextLabel" parent="PanelContainer/TabContainer"]
-visible = false
-layout_mode = 2
-text = "Test!"
 
 [connection signal="pressed" from="PanelContainer/PlayButton" to="." method="_on_play_button_pressed"]
 [connection signal="pressed" from="PanelContainer/QuitButton" to="." method="_on_quit_button_pressed"]
