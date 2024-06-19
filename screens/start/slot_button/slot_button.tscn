@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://4sm8pyw7h3s6"]
+
+[ext_resource type="Script" path="res://screens/start/slot_button/slot_button.gd" id="1_5jw4x"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_yy5oj"]
+font_color = Color(0, 0, 0, 1)
+
+[node name="SlotButton" type="VBoxContainer"]
+script = ExtResource("1_5jw4x")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 2
+size_flags_horizontal = 4
+label_settings = SubResource("LabelSettings_yy5oj")
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 2
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
