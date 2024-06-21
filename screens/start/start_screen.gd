@@ -22,13 +22,6 @@ var slot: Enums.AbilitySlot = Enums.AbilitySlot.Primary:
 		slot = change
 		select.emit(slot)
 
-var ability_dict: Dictionary = {
-	Enums.AbilitySlot.Primary: Enums.Ability.Nothing,
-	Enums.AbilitySlot.Secondary: Enums.Ability.Nothing,
-	Enums.AbilitySlot.Utility: Enums.Ability.Nothing,
-	Enums.AbilitySlot.Special: Enums.Ability.Nothing,
-}
-
 func _ready() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	base.size = size
@@ -42,7 +35,7 @@ func _ready() -> void:
 	for button_slot: Enums.AbilitySlot in Enums.AbilitySlot.values():
 		var slot_button: SlotButton = slot_button_scene.instantiate()
 		slot_button_container.add_child(slot_button)
-		slot_button._initilise(button_slot, size / 10)
+		slot_button._initilise(button_slot, Variables.ability_dict[button_slot], size / 10)
 		select.connect(slot_button._on_select)
 		ability_change.connect(slot_button._on_ability_change)
 		slot_button.pressed.connect(_on_slot_button_pressed)
@@ -56,6 +49,7 @@ func _ready() -> void:
 		ability_button.ability_selected.connect(_on_ability_button_pressed)
 
 func _on_ability_button_pressed(ability: Enums.Ability) -> void:
+	Variables.ability_dict[slot] = ability
 	ability_change.emit(slot, ability)
 	if slot == Enums.AbilitySlot.size() - 1:
 		slot = 0

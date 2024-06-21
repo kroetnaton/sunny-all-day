@@ -19,6 +19,7 @@ config/features=PackedStringArray("4.2", "Forward Plus")
 Enums="*res://global/enums.gd"
 AbilitySceneLoader="*res://global/ability_scene_loader.gd"
 AbilityPartLoader="*res://global/ability_part_loader.gd"
+Variables="*res://global/variables.gd"
 
 [display]
 

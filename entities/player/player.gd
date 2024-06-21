@@ -7,11 +7,6 @@ extends CharacterBody3D
 @onready var movement_controller: MovementController = $MovementController
 @onready var ability_controller: AbilityController = $ViewPivot/SpringArm3D/Camera3D/AbilityController
 
-@export var primary: Enums.Ability
-@export var secondary: Enums.Ability
-@export var utility: Enums.Ability
-@export var special: Enums.Ability
-
 var ability_slot_dict: Dictionary = {
 	Enums.AbilitySlot.Primary:"Primary",
 	Enums.AbilitySlot.Secondary:"Secondary",
@@ -23,10 +18,8 @@ func _ready() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	ability_controller.parent = self
 	ability_controller.muzzle = $Pivot/Muzzle
-	ability_controller.set_ability(primary, Enums.AbilitySlot.Primary)
-	ability_controller.set_ability(secondary, Enums.AbilitySlot.Secondary)
-	ability_controller.set_ability(utility, Enums.AbilitySlot.Utility)
-	ability_controller.set_ability(special, Enums.AbilitySlot.Special)
+	for key: Enums.AbilitySlot in Variables.ability_dict:
+		ability_controller.set_ability(Variables.ability_dict[key], key)
 
 func _input(event) -> void:
 	if event is InputEventMouseMotion:

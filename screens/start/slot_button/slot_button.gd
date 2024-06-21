@@ -18,11 +18,11 @@ signal pressed(slot: Enums.AbilitySlot)
 		comb_size = change
 		button.custom_minimum_size = comb_size - (label.size + Vector2(0, 10))
 
-func _initilise(i_slot: Enums.AbilitySlot, i_comb_size: Vector2) -> void:
+func _initilise(i_slot: Enums.AbilitySlot, i_ability: Enums.Ability, i_comb_size: Vector2) -> void:
 	slot = i_slot
 	add_theme_stylebox_override("panel", selected_style)
 	label.text = Enums.AbilitySlot.find_key(slot)
-	ability = Enums.Ability.Nothing
+	ability = i_ability
 	comb_size = i_comb_size
 
 func _on_button_pressed():
