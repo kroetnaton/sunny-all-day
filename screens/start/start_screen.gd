@@ -52,9 +52,9 @@ func _on_ability_button_pressed(ability: Enums.Ability) -> void:
 	Variables.ability_dict[slot] = ability
 	ability_change.emit(slot, ability)
 	if slot == Enums.AbilitySlot.size() - 1:
-		slot = 0
+		slot = 0 as Enums.AbilitySlot
 	else:
-		slot =  Enums.AbilitySlot[Enums.AbilitySlot.find_key(slot + 1)]
+		slot = Enums.AbilitySlot[Enums.AbilitySlot.find_key(slot + 1)]
 
 func _on_slot_button_pressed(pressed_slot: Enums.AbilitySlot):
 	slot = pressed_slot
