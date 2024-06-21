@@ -1,5 +1,8 @@
 extends Node2D
 
+signal select(unaffected_slot: Enums.AbilitySlot)
+signal ability_change(slot: Enums.AbilitySlot, ability: Enums.Ability)
+
 @onready var base: PanelContainer = $PanelContainer
 @onready var ability_container: ScrollContainer = $PanelContainer/ScrollContainer
 @onready var ability_grid_container: GridContainer = $PanelContainer/ScrollContainer/GridContainer
@@ -14,7 +17,10 @@ extends Node2D
 @onready var size: Vector2 = DisplayServer.window_get_size()
 var slot_button_scene: PackedScene = preload("res://screens/start/slot_button/slot_button.tscn")
 
-var slot: Enums.AbilitySlot = Enums.AbilitySlot.Primary
+var slot: Enums.AbilitySlot = Enums.AbilitySlot.Primary:
+	set(change):
+		slot = change
+		select.emit(slot)
 
 var ability_dict: Dictionary = {
 	Enums.AbilitySlot.Primary: Enums.Ability.Nothing,
@@ -33,19 +39,34 @@ func _ready() -> void:
 	play_button.custom_minimum_size = size / 10
 	quit_botton.custom_minimum_size = size / 12
 	
-	for slot: Enums.AbilitySlot in Enums.AbilitySlot.values():
+	for button_slot: Enums.AbilitySlot in Enums.AbilitySlot.values():
 		var slot_button: SlotButton = slot_button_scene.instantiate()
 		slot_button_container.add_child(slot_button)
-		slot_button._initilise(slot, size / 10)
+		slot_button._initilise(button_slot, size / 10)
+		select.connect(slot_button._on_select)
+		ability_change.connect(slot_button._on_ability_change)
+		slot_button.pressed.connect(_on_slot_button_pressed)
+	select.emit(slot)
 	
 	for ability: Enums.Ability in Enums.Ability.values():
-		var button: Button = Button.new()
-		button.custom_minimum_size = size / 10
-		button.text = Enums.Ability.find_key(ability)
-		ability_grid_container.add_child(button)
+		var ability_button: AbilityButton = AbilityButton.new()
+		ability_button._initilise(ability)
+		ability_button.custom_minimum_size = size / 10
+		ability_grid_container.add_child(ability_button)
+		ability_button.ability_selected.connect(_on_ability_button_pressed)
 
-func _on_play_button_pressed():
+func _on_ability_button_pressed(ability: Enums.Ability) -> void:
+	ability_change.emit(slot, ability)
+	if slot == Enums.AbilitySlot.size() - 1:
+		slot = 0
+	else:
+		slot =  Enums.AbilitySlot[Enums.AbilitySlot.find_key(slot + 1)]
+
+func _on_slot_button_pressed(pressed_slot: Enums.AbilitySlot):
+	slot = pressed_slot
+
+func _on_play_button_pressed() -> void:
 	get_tree().change_scene_to_packed(load("res://screens/sandbox/sandbox.tscn"))
 
-func _on_quit_button_pressed():
+func _on_quit_button_pressed() -> void:
 	get_tree().quit()

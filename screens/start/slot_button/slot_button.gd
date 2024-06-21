@@ -1,10 +1,12 @@
-extends VBoxContainer
+extends PanelContainer
 class_name SlotButton
 
 signal pressed(slot: Enums.AbilitySlot)
 
-@onready var label: Label = $Label
-@onready var button: Button = $Button
+@export var selected_style: StyleBoxFlat
+
+@onready var label: Label = $VBoxContainer/Label
+@onready var button: Button = $VBoxContainer/Button
 
 @onready var slot: Enums.AbilitySlot = Enums.AbilitySlot.Primary
 @onready var ability: Enums.Ability = Enums.Ability.Nothing:
@@ -18,9 +20,20 @@ signal pressed(slot: Enums.AbilitySlot)
 
 func _initilise(i_slot: Enums.AbilitySlot, i_comb_size: Vector2) -> void:
 	slot = i_slot
+	add_theme_stylebox_override("panel", selected_style)
 	label.text = Enums.AbilitySlot.find_key(slot)
 	ability = Enums.Ability.Nothing
 	comb_size = i_comb_size
 
 func _on_button_pressed():
 	pressed.emit(slot)
+
+func _on_select(affected_slot: Enums.AbilitySlot):
+	if affected_slot != slot:
+		remove_theme_stylebox_override("panel")
+	else:
+		add_theme_stylebox_override("panel", selected_style)
+
+func _on_ability_change(affected_slot: Enums.AbilitySlot, changed_ability: Enums.Ability):
+	if affected_slot == slot:
+		ability = changed_ability
