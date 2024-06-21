@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://cru8iqc1186ev"]
+
+[ext_resource type="Script" path="res://screens/start/ability_button/ability_button.gd" id="1_wd2xh"]
+
+[node name="AbilityButton" type="Button"]
+script = ExtResource("1_wd2xh")

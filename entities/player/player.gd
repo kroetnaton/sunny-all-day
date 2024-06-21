@@ -7,11 +7,6 @@ extends CharacterBody3D
 @onready var movement_controller: MovementController = $MovementController
 @onready var ability_controller: AbilityController = $ViewPivot/SpringArm3D/Camera3D/AbilityController
 
-@export var primary: Enums.Ability
-@export var secondary: Enums.Ability
-@export var utility: Enums.Ability
-@export var special: Enums.Ability
-
 var ability_slot_dict: Dictionary = {
 	Enums.AbilitySlot.Primary:"Primary",
 	Enums.AbilitySlot.Secondary:"Secondary",
@@ -23,18 +18,18 @@ func _ready() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	ability_controller.parent = self
 	ability_controller.muzzle = $Pivot/Muzzle
-	ability_controller.set_ability(primary, Enums.AbilitySlot.Primary)
-	ability_controller.set_ability(secondary, Enums.AbilitySlot.Secondary)
-	ability_controller.set_ability(utility, Enums.AbilitySlot.Utility)
-	ability_controller.set_ability(special, Enums.AbilitySlot.Special)
+	for key: Enums.AbilitySlot in Variables.ability_dict:
+		ability_controller.set_ability(Variables.ability_dict[key], key)
 
-func _input(event) -> void:
+func _input(event: InputEvent) -> void:
+	if event.is_action_pressed("Escape"):
+		_on_death()
 	if event is InputEventMouseMotion:
 		rotate_y(deg_to_rad(-event.relative.x * sensitivity))
 		pivot.rotate_x(deg_to_rad(-event.relative.y * sensitivity))
 		pivot.rotation.x = clamp(pivot.rotation.x, -PI/2 + PI/6, PI/4)
 
-func _process(_delta) -> void:
+func _process(_delta: float) -> void:
 	for slot in ability_slot_dict:
 		var input_action: String = ability_slot_dict[slot]
 		if Input.is_action_pressed(input_action):
@@ -47,3 +42,6 @@ func _process(_delta) -> void:
 	
 	if position.y < -20:
 		position = Vector3.ZERO
+
+func _on_death() -> void:
+	get_tree().change_scene_to_packed(load("res://screens/start/start_screen.tscn"))
