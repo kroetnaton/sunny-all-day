@@ -43,9 +43,8 @@ func _ready() -> void:
 	
 	for ability: Enums.Ability in Enums.Ability.values():
 		var ability_button: AbilityButton = AbilityButton.new()
-		ability_button._initilise(ability)
-		ability_button.custom_minimum_size = size / 10
 		ability_grid_container.add_child(ability_button)
+		ability_button._initilise(ability, size / 10)
 		ability_button.ability_selected.connect(_on_ability_button_pressed)
 
 func _on_ability_button_pressed(ability: Enums.Ability) -> void:

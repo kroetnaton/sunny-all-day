@@ -26,15 +26,15 @@ func _initilise(i_slot: Enums.AbilitySlot, i_ability: Enums.Ability, i_comb_size
 	ability = i_ability
 	comb_size = i_comb_size
 
-func _on_button_pressed():
+func _on_button_pressed() -> void:
 	pressed.emit(slot)
 
-func _on_select(affected_slot: Enums.AbilitySlot):
+func _on_select(affected_slot: Enums.AbilitySlot) -> void:
 	if affected_slot != slot:
 		remove_theme_stylebox_override("panel")
 	else:
 		add_theme_stylebox_override("panel", selected_style)
 
-func _on_ability_change(affected_slot: Enums.AbilitySlot, changed_ability: Enums.Ability):
+func _on_ability_change(affected_slot: Enums.AbilitySlot, changed_ability: Enums.Ability) -> void:
 	if affected_slot == slot:
 		ability = changed_ability
