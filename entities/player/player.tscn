@@ -73,8 +73,8 @@ current = true
 
 [node name="HUD" parent="ViewPivot/SpringArm3D/Camera3D" instance=ExtResource("5_76tqt")]
 
-[connection signal="death" from="LifeController" to="." method="_on_death"]
 [connection signal="death" from="LifeController" to="." method="queue_free"]
+[connection signal="death" from="LifeController" to="." method="_on_death"]
 [connection signal="health_change" from="LifeController" to="Pivot/LifeHud" method="_on_health_change"]
 [connection signal="max_health_change" from="LifeController" to="Pivot/LifeHud" method="_on_max_health_change"]
 [connection signal="time_change" from="ViewPivot/SpringArm3D/Camera3D/AbilityController" to="Pivot/CooldownHud" method="_on_time_change"]
