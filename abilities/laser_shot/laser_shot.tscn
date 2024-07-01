@@ -9,7 +9,7 @@ script = ExtResource("1_hw7hk")
 
 [node name="AbilityBase" type="Node3D" parent="."]
 script = ExtResource("2_q37iw")
-ability_name = "LaserShot"
+description = "Creates stationary lasers in front of the caster, that fire after a short delay."
 cooldown = 1.0
 damage = 35.0
 

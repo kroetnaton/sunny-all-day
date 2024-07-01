@@ -9,7 +9,7 @@ script = ExtResource("1_2nrk8")
 
 [node name="AbilityBase" type="Node3D" parent="."]
 script = ExtResource("1_ciput")
-ability_name = "Shotgun"
+description = "Shoots spreading bullets in the target direction."
 cooldown = 1.0
 damage = 10.0
 

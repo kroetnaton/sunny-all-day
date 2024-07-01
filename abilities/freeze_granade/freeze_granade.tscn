@@ -24,6 +24,8 @@ height = 10.0
 script = ExtResource("1_crpot")
 
 [node name="AbilityBase" parent="." instance=ExtResource("1_nn38r")]
+description = "Throws a projectile that explodes on impact.
+Entities hit get stunned and have their damage taken amplified."
 cooldown = 8.0
 duration = 3.0
 damage_boost_percent = 3.0

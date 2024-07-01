@@ -7,5 +7,5 @@
 script = ExtResource("1_4rm4r")
 
 [node name="AbilityBase" parent="." instance=ExtResource("2_g2atr")]
-ability_name = "Nothing"
+description = "Does nothing but block a slot."
 cooldown = 1.0

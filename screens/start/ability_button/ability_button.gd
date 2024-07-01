@@ -7,6 +7,10 @@ var ability: Enums.Ability:
 	set(change):
 		ability = change
 		text = Enums.Ability.find_key(ability)
+		var ability = AbilitySceneLoader.preload_dict[ability].instantiate()
+		add_child(ability)
+		tooltip_text = ability.ability_base.description
+		ability.free()
 
 func _initilise(i_ability: Enums.Ability, size: Vector2) -> void:
 	ability = i_ability

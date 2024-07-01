@@ -14,6 +14,7 @@ point_count = 5
 script = ExtResource("1_fj73o")
 
 [node name="AbilityBase" parent="." instance=ExtResource("2_x6gih")]
+description = "Creates lasers, one after the other, moving them with the caster and firing in the direction the caster looks."
 cooldown = 10.0
 damage = 35.0
 

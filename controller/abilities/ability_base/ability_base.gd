@@ -10,6 +10,26 @@ var is_target_collision: bool
 var target_point: Vector3
 var target_object: Object
 
+@onready var ability_name: String = get_parent().name
+@export_multiline var description: String = "":
+	get:
+		var value: String = ability_name + "\n\n" + \
+				description +  \
+				"\n\nCooldown: " + str(cooldown) + "s" + \
+				("\nDamage: " + str (damage) if damage != 0.0 else "") + \
+				("\nHeal: " + str (heal) if heal != 0.0 else "")
+		if duration != 0.0:
+			var duration_text: String = " " + str(duration) + "s"
+			value += ("\nDamage over time: " + str(dot / duration) + " DPS (" + str(dot) + " in" + duration_text + ")" if dot != 0.0 else "") + \
+					("\nIncreased damage per hit: " + str(damage_boost_flat - damage_block_flat) + " for" + duration_text if damage_boost_flat + damage_block_flat != 0.0 else "") + \
+					("\nDamage reduction: " + str(damage_block_percent * 100) + "% for" + duration_text if damage_block_percent != 0.0 else "") + \
+					("\nDamage amplification: " + str(damage_boost_percent * 100) + "% for" + duration_text if damage_boost_percent != 0.0 else "") + \
+					("\nHeal over time: " + str(hot / duration) + " HPS (" + str(hot) + " in" + duration_text + ")" if dot != 0.0 else "") + \
+					("\nIncreased heal per hit: " + str(heal_boost_flat - heal_block_flat) + " for" + duration_text if heal_boost_flat + heal_block_flat != 0.0 else "") + \
+					("\nHeal reduction: " + str(heal_block_percent * 100) + "% for" + duration_text if heal_block_percent != 0.0 else "") + \
+					("\nHeal amplification: " + str(heal_boost_percent * 100) + "% for" + duration_text if heal_boost_percent != 0.0 else "")
+		return value
+
 @export var cooldown: float = 3.0
 @export var duration: float = 0.0
 
@@ -47,7 +67,6 @@ var slot_flags: Dictionary = {
 	Enums.AbilitySlot.Special: 1 << 3,
 }
 
-@onready var ability_name: String = get_parent().name
 func _on_hit(body: Node3D) -> void:
 	if not is_instance_valid(body):
 		return

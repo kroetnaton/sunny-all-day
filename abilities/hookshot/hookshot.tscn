@@ -11,6 +11,7 @@ visible = false
 script = ExtResource("1_l1a0d")
 
 [node name="AbilityBase" parent="." instance=ExtResource("2_bvlek")]
+description = "Hooks the user to the target point. If it targets an entity, that entity is locked in place."
 cooldown = 5.0
 speed_factor = 0.0
 fall_factor = 0.0

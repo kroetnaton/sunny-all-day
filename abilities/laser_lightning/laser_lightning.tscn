@@ -8,7 +8,7 @@
 script = ExtResource("1_ljbcj")
 
 [node name="AbilityBase" parent="." instance=ExtResource("1_ito3p")]
-ability_name = "LaserLightning"
+description = "Creates a cloud of lasers over the target entity, all facing down and firing in one instance."
 cooldown = 6.0
 damage = 35.0
 

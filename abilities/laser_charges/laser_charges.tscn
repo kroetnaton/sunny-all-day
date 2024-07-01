@@ -9,6 +9,7 @@ script = ExtResource("1_f8tkv")
 
 [node name="AbilityBase" type="Node3D" parent="."]
 script = ExtResource("2_ostyw")
+description = "Gives the caster the ability to cast lasers, moving with the caster until they fire."
 cooldown = 8.0
 damage = 35.0
 
